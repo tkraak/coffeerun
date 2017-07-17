@@ -1,0 +1,14 @@
+{
+  "ava": {
+    "verbose": "true"
+  },
+  "scripts": {
+    "test": "ava",
+    "lint": "standard | snazzy"
+  },
+  "devDependencies": {
+    "ava": "^0.19.1",
+    "snazzy": "^7.0.0",
+    "standard": "^10.0.2"
+  }
+}
