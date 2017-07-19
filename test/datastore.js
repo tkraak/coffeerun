@@ -1,19 +1,18 @@
 import test from 'ava'
 import DataStore from '../app/datastore'
 
+const ds = new DataStore.DataStore()
+
 test('DataStore function exists', t => {
-  const ds = new DataStore.DataStore()
   t.true(typeof ds === 'object')
 })
 
 test('the instance data object exists', t => {
-  const ds = new DataStore.DataStore()
   t.true(typeof ds.data === 'object')
   t.deepEqual(ds.data, {})
 })
 
 test('DataStore has an add method', t => {
-  const ds = new DataStore.DataStore()
   t.true(typeof ds.add === 'function')
 })
 
@@ -24,7 +23,6 @@ test('the DataStore add method adds properties to the data object', t => {
 })
 
 test('DataStore has a get method', t => {
-  const ds = new DataStore.DataStore()
   t.true(typeof ds.get === 'function')
 })
 
@@ -35,7 +33,6 @@ test('the DataStore get method returns a value for a given key', t => {
 })
 
 test('DataStore has a getAll method', t => {
-  const ds = new DataStore.DataStore()
   t.true(typeof ds.getAll === 'function')
 })
 
@@ -46,7 +43,6 @@ test('the DataStore getAll method returns the data object ', t => {
 })
 
 test('DataStore has a remove method', t => {
-  const ds = new DataStore.DataStore()
   t.true(typeof ds.get === 'function')
 })
 
