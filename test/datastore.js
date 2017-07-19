@@ -6,6 +6,12 @@ test('DataStore function exists', t => {
   t.true(typeof ds === 'object')
 })
 
+test('the instance data object exists', t => {
+  const ds = new DataStore.DataStore()
+  t.true(typeof ds.data === 'object')
+  t.deepEqual(ds.data, {})
+})
+
 test('DataStore has an add method', t => {
   const ds = new DataStore.DataStore()
   t.true(typeof ds.add === 'function')
