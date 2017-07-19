@@ -22,3 +22,37 @@ test('the DataStore add method adds properties to the data object', t => {
   ds.add('email', 'test@test.com')
   t.is(ds.data.email, 'test@test.com')
 })
+
+test('DataStore has a get method', t => {
+  const ds = new DataStore.DataStore()
+  t.true(typeof ds.get === 'function')
+})
+
+test('the DataStore get method returns a value for a given key', t => {
+  const ds = new DataStore.DataStore()
+  ds.add('email', 'test@test.com')
+  t.is(ds.get('email'), 'test@test.com')
+})
+
+test('DataStore has a getAll method', t => {
+  const ds = new DataStore.DataStore()
+  t.true(typeof ds.getAll === 'function')
+})
+
+test('the DataStore getAll method returns the data object ', t => {
+  const ds = new DataStore.DataStore()
+  ds.add('email', 'test@test.com')
+  t.deepEqual(ds.getAll(), { email: 'test@test.com' })
+})
+
+test('DataStore has a remove method', t => {
+  const ds = new DataStore.DataStore()
+  t.true(typeof ds.get === 'function')
+})
+
+test('the DataStore remove method deletes a property for a given key', t => {
+  const ds = new DataStore.DataStore()
+  ds.add('email', 'test@test.com')
+  ds.remove('email')
+  t.deepEqual(ds.data, {})
+})
