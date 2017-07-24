@@ -9,6 +9,7 @@
   "devDependencies": {
     "ava": "^0.19.1",
     "nyc": "^11.0.3",
+    "sinon": "^2.3.8",
     "snazzy": "^7.0.0",
     "standard": "^10.0.2"
   }
