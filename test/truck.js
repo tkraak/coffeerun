@@ -24,9 +24,9 @@ test('Truck has a createOrder method', t => {
 })
 
 test('the createOrder method was called', t => {
-  sinon.spy(truck, 'createOrder')
+  sinon.spy(truck.db, 'add')
   truck.createOrder({ emailAddress: 'test@test.com', coffee: 'test' })
-  t.true(truck.createOrder.called)
+  t.true(truck.db.add.called)
 })
 
 test('Truck has a deliverOrder method', t => {
@@ -34,9 +34,9 @@ test('Truck has a deliverOrder method', t => {
 })
 
 test('the deliverOrder method was called', t => {
-  sinon.spy(truck, 'deliverOrder')
+  sinon.spy(truck.db, 'remove')
   truck.deliverOrder('test@test.com')
-  t.true(truck.deliverOrder.called)
+  t.true(truck.db.remove.called)
 })
 
 test('Truck has a printOrders method', t => {
@@ -44,7 +44,10 @@ test('Truck has a printOrders method', t => {
 })
 
 test('the printOrders method was called', t => {
-  sinon.spy(truck, 'printOrders')
+  sinon.spy(truck.db, 'getAll')
+  sinon.spy(truck.db, 'get')
+  truck.createOrder({ emailAddress: 'test@test.com', coffee: 'test' })
   truck.printOrders()
-  t.true(truck.printOrders.called)
+  t.true(truck.db.getAll.called)
+  t.true(truck.db.get.called)
 })
