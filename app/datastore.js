@@ -20,4 +20,4 @@
   }
 
   exports.DataStore = DataStore
-})(typeof exports === 'undefined' ? window.app = {} : exports)
+})(typeof exports === 'undefined' ? window.app : exports)
