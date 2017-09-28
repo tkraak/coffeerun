@@ -1,5 +1,6 @@
 import test from 'ava'
 import { JSDOM } from 'jsdom'
+import Chromeless from 'chromeless'
 
 const dom = new JSDOM(`<!DOCTYPE html><html><form data-coffee-order="form"></form></html>`)
 const window = dom.window
@@ -28,4 +29,15 @@ test('addSubmitHandler method exists', t => {
   fh.addSubmitHandler(() => {})
   t.true(typeof fh.addSubmitHandler === 'function')
   t.true(typeof fh.$formElement.on === 'function')
+})
+
+test('app title', async t => {
+  const chromeless = new Chromeless({ launchChrome: true })
+  const title = await chromeless
+    .goto('http://localhost:8080')
+    .evaluate(() => document.title)
+
+  await chromeless.end()
+
+  t.is(title, 'CoffeeRun')
 })
