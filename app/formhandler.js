@@ -25,4 +25,4 @@
   }
 
   exports.FormHandler = FormHandler
-})(typeof exports === 'undefined' ? window.app = {} : exports, window.jQuery)
+})(typeof exports === 'undefined' ? window.app : exports, window.jQuery)
