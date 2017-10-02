@@ -7,8 +7,8 @@
   const formHandler = new FormHandler(form)
 
   formHandler.addSubmitHandler((data) => {
-    truck.createOrder.call(truck, data)
-    checkList.addRow.call(checkList, data)
+    truck.createOrder(data)
+    checkList.addRow(data)
   })
 
   exports.truck = truck
