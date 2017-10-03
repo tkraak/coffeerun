@@ -1,10 +1,8 @@
 (function (exports) {
-  const form = '[data-coffee-order="form"]'
-  const cl = '[data-coffee-order="checklist"]'
   const { CheckList, DataStore, FormHandler, Truck } = exports.app
   const truck = new Truck('ncc-1701', new DataStore())
-  const checkList = new CheckList(cl)
-  const formHandler = new FormHandler(form)
+  const checkList = new CheckList('[data-coffee-order="checklist"]')
+  const formHandler = new FormHandler('[data-coffee-order="form"]')
 
   formHandler.addSubmitHandler((data) => {
     truck.createOrder(data)
