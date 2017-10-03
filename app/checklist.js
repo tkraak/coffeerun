@@ -10,12 +10,28 @@
     }
   }
 
-  CheckList.prototype.addRow = function (coffeeOrder) {
-    const rowElement = new Row(coffeeOrder)
+  CheckList.prototype.addClickHandler = function (callback) {
+    this.$element.on('click', 'input', e => {
+      const email = e.target.value
+      this.removeRow(email)
+      callback(email)
+    })
+  }
+
+  CheckList.prototype.addRow = function (order) {
+    this.removeRow(order.emailAddress)
+    const rowElement = new Row(order)
     this.$element.append(rowElement.$element)
   }
 
-  function Row (coffeeOrder) {
+  CheckList.prototype.removeRow = function (email) {
+    this.$element
+      .find(`[value="${email}"]`)
+      .closest('[data-coffee-order="checkbox"]')
+      .remove()
+  }
+
+  function Row (order) {
     const $div = $('<div></div>', {
       'data-coffee-order': 'checkbox',
       'class': 'checkbox'
@@ -25,15 +41,15 @@
 
     const $checkbox = $('<input></input>', {
       type: 'checkbox',
-      value: coffeeOrder.emailAddress
+      value: order.emailAddress
     })
 
     const description = (
-    `${coffeeOrder.size}
-    ${coffeeOrder.flavor ? coffeeOrder.flavor : ' '}
-    ${coffeeOrder.coffee},
-    (${coffeeOrder.emailAddress})
-    [${coffeeOrder.strength}]`
+    `${order.size}
+    ${order.flavor ? order.flavor : ' '}
+    ${order.coffee},
+    (${order.emailAddress})
+    [${order.strength}]`
     )
 
     $label.append($checkbox)
