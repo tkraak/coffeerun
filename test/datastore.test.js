@@ -1,7 +1,7 @@
 import test from 'ava'
-import DataStore from '../app/datastore'
+import { DataStore } from '../app/datastore'
 
-const ds = new DataStore.DataStore()
+const ds = new DataStore()
 
 test('DataStore function exists', t => {
   t.true(typeof ds === 'object')
@@ -17,7 +17,7 @@ test('DataStore has an add method', t => {
 })
 
 test('the DataStore add method adds properties to the data object', t => {
-  const ds = new DataStore.DataStore()
+  const ds = new DataStore()
   ds.add('email', 'test@test.com')
   t.is(ds.data.email, 'test@test.com')
 })
@@ -27,7 +27,7 @@ test('DataStore has a get method', t => {
 })
 
 test('the DataStore get method returns a value for a given key', t => {
-  const ds = new DataStore.DataStore()
+  const ds = new DataStore()
   ds.add('email', 'test@test.com')
   t.is(ds.get('email'), 'test@test.com')
 })
@@ -37,7 +37,7 @@ test('DataStore has a getAll method', t => {
 })
 
 test('the DataStore getAll method returns the data object ', t => {
-  const ds = new DataStore.DataStore()
+  const ds = new DataStore()
   ds.add('email', 'test@test.com')
   t.deepEqual(ds.getAll(), { email: 'test@test.com' })
 })
@@ -47,7 +47,7 @@ test('DataStore has a remove method', t => {
 })
 
 test('the DataStore remove method deletes a property for a given key', t => {
-  const ds = new DataStore.DataStore()
+  const ds = new DataStore()
   ds.add('email', 'test@test.com')
   ds.remove('email')
   t.deepEqual(ds.data, {})

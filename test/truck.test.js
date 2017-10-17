@@ -1,9 +1,9 @@
 import test from 'ava'
 import sinon from 'sinon'
-import DataStore from '../app/datastore'
-import Truck from '../app/truck'
+import { DataStore } from '../app/datastore'
+import { Truck } from '../app/truck'
 
-const truck = new Truck.Truck('ncc-1701', new DataStore.DataStore())
+const truck = new Truck('ncc-1701', new DataStore())
 
 test('Truck function exists', t => {
   t.true(typeof truck === 'object')
@@ -16,7 +16,7 @@ test('the instance truckId string exists', t => {
 
 test('the instance db object exists', t => {
   t.true(typeof truck.db === 'object')
-  t.true(truck.db instanceof DataStore.DataStore)
+  t.true(truck.db instanceof DataStore)
 })
 
 test('Truck has a createOrder method', t => {
