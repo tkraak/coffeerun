@@ -1,7 +1,6 @@
 import test from 'ava'
 import sinon from 'sinon'
 import { JSDOM } from 'jsdom'
-import Chromeless from 'chromeless'
 
 const dom = new JSDOM(`<!DOCTYPE html><html><form data-coffee-order="form"></form></html>`)
 const window = dom.window
@@ -48,15 +47,4 @@ test('addSubmitHandler method', t => {
   t.true(typeof fh.addSubmitHandler === 'function')
 
   fh.addSubmitHandler(() => {})
-})
-
-test('app title', async t => {
-  const chromeless = new Chromeless({ launchChrome: true })
-  const title = await chromeless
-    .goto('http://localhost:8080')
-    .evaluate(() => document.title)
-
-  await chromeless.end()
-
-  t.is(title, 'CoffeeRun')
 })
