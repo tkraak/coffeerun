@@ -23,5 +23,18 @@
     })
   }
 
+  FormHandler.prototype.addInputHandler = function (callback) {
+    this.$formElement.on('input', '[name="emailAddress"]', function (e) {
+      const emailAddress = e.target.value
+      let message = ''
+      if (callback(emailAddress)) {
+        e.target.setCustomValidity('')
+      } else {
+        message = `${emailAddress} is not an authorized email address!`
+        e.target.setCustomValidity(message)
+      }
+    })
+  }
+
   exports.FormHandler = FormHandler
 })(typeof exports === 'undefined' ? window.app : exports, window.jQuery)

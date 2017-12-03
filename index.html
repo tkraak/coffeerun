@@ -5,6 +5,11 @@
     <meta name="description" content="Manage coffee orders for a food truck.">
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://cdn.shoelace.style/1.0.0-beta22/shoelace.css">
+    <style>
+      form :focus:required:invalid {
+        border-color: #ff4136;
+      }
+    </style>
   </head>
   <body>
     <main class="container">
@@ -15,11 +20,11 @@
               <legend>CoffeeRun</legend>
               <div class="input-field">
                 <label>Coffee Order</label>
-                <input type="text" name="coffee" autofocus>
+                <input type="text" name="coffee" pattern="[a-zA-Z\s]+" required autofocus>
               </div>
               <div class="input-field">
                 <label>Email Address</label>
-                <input type="email" name="emailAddress">
+                <input type="email" name="emailAddress" required>
               </div>
               <div class="input-field">
                 <label>
@@ -62,6 +67,7 @@
       </div>
     </main>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" defer></script>
+    <script src="app/validation.js" defer></script>
     <script src="app/checklist.js" defer></script>
     <script src="app/formhandler.js" defer></script>
     <script src="app/datastore.js" defer></script>

@@ -60,4 +60,4 @@
   }
 
   exports.CheckList = CheckList
-})(typeof exports === 'undefined' ? window.app = {} : exports, window.jQuery)
+})(typeof exports === 'undefined' ? window.app : exports, window.jQuery)
