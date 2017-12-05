@@ -1,5 +1,6 @@
 import test from 'ava'
 import sinon from 'sinon'
+import { Validation } from '../app/validation'
 import { JSDOM } from 'jsdom'
 
 const dom = new JSDOM(`<!DOCTYPE html><html><form data-coffee-order="form"></form></html>`)
@@ -47,4 +48,38 @@ test('addSubmitHandler method', t => {
   t.true(typeof fh.addSubmitHandler === 'function')
 
   fh.addSubmitHandler(() => {})
+})
+
+test('addInputHandler invalid', t => {
+  const fh = new FormHandler(form)
+  const setCustomValidity = sinon.spy()
+  const message = 'test@aol.com is not an authorized email address!'
+
+  const on = sinon.stub(fh.$formElement, 'on').callsFake((type, delegate, callback) => {
+    callback.call({}, { target: { value: 'test@aol.com', setCustomValidity } })
+    t.true(on.calledOnce)
+    t.true(setCustomValidity.calledOnce)
+    t.true(setCustomValidity.calledWith(message))
+    t.is(type, 'input')
+    t.is(delegate, '[name="emailAddress"]')
+  })
+
+  t.true(typeof fh.addInputHandler === 'function')
+
+  fh.addInputHandler(Validation.isCompanyEmail)
+})
+
+test('addInputHandler valid', t => {
+  const fh = new FormHandler(form)
+  const setCustomValidity = sinon.spy()
+  const message = ''
+
+  const on = sinon.stub(fh.$formElement, 'on').callsFake((type, delegate, callback) => {
+    callback.call({}, { target: { value: 'test@test.com', setCustomValidity } })
+    t.true(on.calledOnce)
+    t.true(setCustomValidity.calledOnce)
+    t.true(setCustomValidity.calledWith(message))
+  })
+
+  fh.addInputHandler(Validation.isCompanyEmail)
 })
