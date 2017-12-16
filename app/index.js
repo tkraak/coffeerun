@@ -1,6 +1,7 @@
 (function (exports) {
-  const { Validation, CheckList, DataStore, FormHandler, Truck } = exports.app
-  const truck = new Truck('ncc-1701', new DataStore())
+  const { Validation, CheckList, RemoteDataStore, FormHandler, Truck } = exports.app
+  const apiUrl = 'http://coffeerun-v2-rest-api.herokuapp.com/api/coffeeorders'
+  const truck = new Truck('ncc-1701', new RemoteDataStore(apiUrl))
   const checkList = new CheckList('[data-coffee-order="checklist"]')
   const formHandler = new FormHandler('[data-coffee-order="form"]')
 
