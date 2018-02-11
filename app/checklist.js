@@ -20,6 +20,7 @@
   CheckList.prototype.addRow = function (order) {
     this.removeRow(order.emailAddress)
     const rowElement = new Row(order)
+    this.$element.removeClass('loader-bg')
     this.$element.append(rowElement.$element)
   }
 
