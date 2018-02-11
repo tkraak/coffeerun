@@ -17,9 +17,10 @@
       $(this).serializeArray().forEach((field) => {
         data[field.name] = field.value
       })
-      callback(data)
-      this.reset()
-      this.elements[1].focus()
+      callback(data).then(() => {
+        this.reset()
+        this.elements[1].focus()
+      })
     })
   }
 

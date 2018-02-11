@@ -8,11 +8,12 @@
   checkList.addClickHandler(truck.deliverOrder.bind(truck))
 
   formHandler.addSubmitHandler((data) => {
-    truck.createOrder(data)
-    checkList.addRow(data)
+    return truck.createOrder(data).then(() => checkList.addRow(data))
   })
 
   formHandler.addInputHandler(Validation.isCompanyEmail)
+
+  truck.printOrders(checkList.addRow.bind(checkList))
 
   exports.truck = truck
 })(typeof exports === 'undefined' ? window : exports)

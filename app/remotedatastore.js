@@ -8,19 +8,27 @@
 
   // match DataStore signature
   RemoteDataStore.prototype.add = function (k, v) {
-    $.post(this.serverUrl, v)
+    return $.post(this.serverUrl, v)
   }
 
   RemoteDataStore.prototype.get = function (k, cb) {
-    $.get(`${this.serverUrl}/${k}`, response => cb(response))
+    return $.get(`${this.serverUrl}/${k}`, response => {
+      if (cb) {
+        cb(response)
+      }
+    })
   }
 
   RemoteDataStore.prototype.getAll = function (cb) {
-    $.get(this.serverUrl, response => cb(response))
+    return $.get(this.serverUrl, response => {
+      if (cb) {
+        cb(response)
+      }
+    })
   }
 
   RemoteDataStore.prototype.remove = function (k) {
-    $.ajax(`${this.serverUrl}/${k}`, {
+    return $.ajax(`${this.serverUrl}/${k}`, {
       type: 'DELETE'
     })
   }

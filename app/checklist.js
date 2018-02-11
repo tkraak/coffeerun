@@ -13,8 +13,7 @@
   CheckList.prototype.addClickHandler = function (callback) {
     this.$element.on('click', 'input', e => {
       const email = e.target.value
-      this.removeRow(email)
-      callback(email)
+      callback(email).then(() => this.removeRow(email))
     })
   }
 
