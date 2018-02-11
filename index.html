@@ -4,6 +4,7 @@
     <title>CoffeeRun</title>
     <meta name="description" content="Manage coffee orders for a food truck.">
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.shoelace.style/1.0.0-beta22/shoelace.css">
     <style>
       form :focus:required:invalid {
@@ -14,7 +15,7 @@
   <body>
     <main class="container">
       <div class="row">
-        <div class="col-6">
+        <div class="col-12 col-md-6">
           <form data-coffee-order="form">
             <fieldset>
               <legend>CoffeeRun</legend>
@@ -60,7 +61,7 @@
             </fieldset>
           </form>
         </div>
-        <div class="col-6">
+        <div class="col-12 col-md-6">
           <fieldset>
             <legend>Pending Orders</legend>
             <section data-coffee-order="checklist" class="loader-bg"></section>
