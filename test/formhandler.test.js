@@ -47,7 +47,7 @@ test('addSubmitHandler method', t => {
 
   t.true(typeof fh.addSubmitHandler === 'function')
 
-  fh.addSubmitHandler(() => {})
+  fh.addSubmitHandler(() => ({ then () {} }))
 })
 
 test('addInputHandler invalid', t => {

@@ -34,7 +34,7 @@ test('addClicktHandler method', t => {
 
   t.true(typeof cl.addClickHandler === 'function')
 
-  cl.addClickHandler(() => {})
+  cl.addClickHandler(() => ({ then () {} }))
 })
 
 test('addRow method', t => {
@@ -42,5 +42,11 @@ test('addRow method', t => {
 
   t.true(typeof cl.addRow === 'function')
 
-  cl.addRow.call({ removeRow () {}, $element: { append () {} } }, { emailAddress: 'test@test.com' })
+  cl.addRow.call({
+    removeRow () {},
+    $element: {
+      append () {},
+      removeClass () {}
+    }
+  }, { emailAddress: 'test@test.com' })
 })

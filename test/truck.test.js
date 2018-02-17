@@ -44,10 +44,8 @@ test('Truck has a printOrders method', t => {
 })
 
 test('the printOrders method was called', t => {
-  sinon.spy(truck.db, 'getAll')
-  sinon.spy(truck.db, 'get')
+  sinon.stub(truck.db, 'getAll').returns({ then () {} })
   truck.createOrder({ emailAddress: 'test@test.com', coffee: 'test' })
   truck.printOrders()
   t.true(truck.db.getAll.called)
-  t.true(truck.db.get.called)
 })
