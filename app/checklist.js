@@ -45,11 +45,11 @@
     })
 
     const description = (
-    `${order.size}
-    ${order.flavor ? order.flavor : ' '}
-    ${order.coffee},
-    (${order.emailAddress})
-    [${order.strength}]`
+      `${order.size}
+      ${order.flavor ? order.flavor : ' '}
+      ${order.coffee},
+      (${order.emailAddress})
+      [${order.strength}]`
     )
 
     $label.append($checkbox)
