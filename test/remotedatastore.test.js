@@ -27,19 +27,45 @@ test('add method makes a POST request', t => {
   $.post.restore()
 })
 
-test('get method makes a GET request', t => {
-  sinon.spy($, 'get')
-  rds.get('test@test.com', sinon.spy())
-  t.true($.get.calledOnce)
-  t.true($.get.calledWithMatch('url/test@test.com'))
+test('get method makes a GET request and invokes callback', t => {
+  const cb = sinon.spy()
+  const get = sinon.stub($, 'get').yields({})
+  rds.get('test@test.com', cb)
+  t.true(get.calledOnce)
+  t.true(get.calledWithMatch('url/test@test.com'))
+  t.true(cb.calledOnce)
+  t.true(cb.calledWith({}))
   $.get.restore()
 })
 
-test('getAll method makes a GET request', t => {
-  sinon.spy($, 'get')
-  rds.getAll(sinon.spy())
-  t.true($.get.calledOnce)
-  t.true($.get.calledWithMatch('url'))
+test('get method makes a GET request and does not invoke callback', t => {
+  const cb = sinon.spy()
+  const get = sinon.stub($, 'get').yields({})
+  rds.get('test@test.com')
+  t.true(get.calledOnce)
+  t.true(get.calledWithMatch('url/test@test.com'))
+  t.false(cb.called)
+  $.get.restore()
+})
+
+test('getAll method makes a GET request and invokes callback', t => {
+  const cb = sinon.spy()
+  const get = sinon.stub($, 'get').yields({})
+  rds.getAll(cb)
+  t.true(get.calledOnce)
+  t.true(get.calledWithMatch('url'))
+  t.true(cb.calledOnce)
+  t.true(cb.calledWith({}))
+  $.get.restore()
+})
+
+test('getAll method makes a GET request and does not invoke callback', t => {
+  const cb = sinon.spy()
+  const get = sinon.stub($, 'get').yields({})
+  rds.getAll()
+  t.true(get.calledOnce)
+  t.true(get.calledWithMatch('url'))
+  t.false(cb.called)
   $.get.restore()
 })
 
