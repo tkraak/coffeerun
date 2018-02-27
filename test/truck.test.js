@@ -5,6 +5,11 @@ import { Truck } from '../app/truck'
 
 const truck = new Truck('ncc-1701', new DataStore())
 
+const orders = {
+  emailAddress: 'test@test.com',
+  coffee: 'test'
+}
+
 test('Truck function exists', t => {
   t.true(typeof truck === 'object')
 })
@@ -43,9 +48,19 @@ test('Truck has a printOrders method', t => {
   t.true(typeof truck.printOrders === 'function')
 })
 
-test('the printOrders method was called', t => {
-  sinon.stub(truck.db, 'getAll').returns({ then () {} })
-  truck.createOrder({ emailAddress: 'test@test.com', coffee: 'test' })
+test('the printOrders method was called and invokes callback', t => {
+  const cb = sinon.stub()
+  sinon.stub(truck.db, 'getAll').returns({ then: sinon.stub().yields(orders) })
+  truck.printOrders(cb)
+  t.true(truck.db.getAll.called)
+  t.true(cb.called)
+  truck.db.getAll.restore()
+})
+
+test('the printOrders method was called and does not invoke callback', t => {
+  const cb = sinon.stub()
+  sinon.stub(truck.db, 'getAll').returns({ then: sinon.stub().yields(orders) })
   truck.printOrders()
   t.true(truck.db.getAll.called)
+  t.false(cb.called)
 })
