@@ -1,5 +1,5 @@
 import test from 'ava'
-import sinon from 'sinon'
+import { spy, stub } from 'sinon'
 import { JSDOM } from 'jsdom'
 
 const dom = new JSDOM(`<!DOCTYPE html><html><div data-coffee-order="checklist"></div></html>`)
@@ -27,7 +27,7 @@ test('throws error if selector is invalid', t => {
 test('addClicktHandler method', t => {
   const cl = new CheckList(checkList)
 
-  const on = sinon.stub(cl.$element, 'on').callsFake((type, delegate, callback) => {
+  const on = stub(cl.$element, 'on').callsFake((type, delegate, callback) => {
     callback.call({ removeRow () {} }, { target: { value: 'test' } })
     t.true(on.calledOnce)
   })
@@ -39,14 +39,22 @@ test('addClicktHandler method', t => {
 
 test('addRow method', t => {
   const cl = new CheckList(checkList)
+  const removeRow = spy()
+  const append = spy()
+  const removeClass = spy()
 
   t.true(typeof cl.addRow === 'function')
 
   cl.addRow.call({
-    removeRow () {},
+    removeRow,
     $element: {
-      append () {},
-      removeClass () {}
+      removeClass,
+      append
     }
   }, { emailAddress: 'test@test.com' })
+
+  // called once with test@test.com as first argument
+  t.is(removeRow.args[0][0], 'test@test.com')
+  t.is(removeClass.args[0][0], 'loader-bg')
+  t.true(append.calledOnce)
 })
