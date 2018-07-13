@@ -1,5 +1,5 @@
 import test from 'ava'
-import { spy, stub } from 'sinon'
+import { spy, fake, stub } from 'sinon'
 import { JSDOM } from 'jsdom'
 
 const dom = new JSDOM(`<!DOCTYPE html><html><div data-coffee-order="checklist"></div></html>`)
@@ -57,4 +57,23 @@ test('addRow method', t => {
   t.is(removeRow.args[0][0], 'test@test.com')
   t.is(removeClass.args[0][0], 'loader-bg')
   t.true(append.calledOnce)
+})
+
+test('removeRow method', t => {
+  const cl = new CheckList(checkList)
+  const remove = spy()
+  const closest = fake.returns({ remove })
+  const find = fake.returns({ closest })
+
+  t.true(typeof cl.removeRow === 'function')
+
+  cl.removeRow.call({
+    $element: {
+      find
+    }
+  }, 'test@test.com')
+
+  t.is(find.args[0][0], '[value="test@test.com"]')
+  t.is(closest.args[0][0], '[data-coffee-order="checkbox"]')
+  t.true(remove.calledOnce)
 })
