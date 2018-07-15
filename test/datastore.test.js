@@ -26,20 +26,20 @@ test('DataStore has a get method', t => {
   t.true(typeof ds.get === 'function')
 })
 
-test('the DataStore get method returns a value for a given key', t => {
+test('the DataStore get method returns a value for a given key', async t => {
   const ds = new DataStore()
   ds.add('email', 'test@test.com')
-  t.is(ds.get('email'), 'test@test.com')
+  t.is(await ds.get('email'), 'test@test.com')
 })
 
 test('DataStore has a getAll method', t => {
   t.true(typeof ds.getAll === 'function')
 })
 
-test('the DataStore getAll method returns the data object ', t => {
+test('the DataStore getAll method returns the data object ', async t => {
   const ds = new DataStore()
   ds.add('email', 'test@test.com')
-  t.deepEqual(ds.getAll(), { email: 'test@test.com' })
+  t.deepEqual(await ds.getAll(), { email: 'test@test.com' })
 })
 
 test('DataStore has a remove method', t => {
