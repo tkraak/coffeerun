@@ -4,19 +4,29 @@
   }
 
   DataStore.prototype.add = function (k, v) {
-    this.data[k] = v
+    return new Promise((resolve, reject) => {
+      this.data[k] = v
+      resolve(null)
+    })
   }
 
   DataStore.prototype.get = function (k) {
-    return this.data[k]
+    return new Promise((resolve, reject) => {
+      resolve(this.data[k])
+    })
   }
 
   DataStore.prototype.getAll = function () {
-    return this.data
+    return new Promise((resolve, reject) => {
+      resolve(this.data)
+    })
   }
 
   DataStore.prototype.remove = function (k) {
-    delete this.data[k]
+    return new Promise((resolve, reject) => {
+      delete this.data[k]
+      resolve(null)
+    })
   }
 
   exports.DataStore = DataStore
