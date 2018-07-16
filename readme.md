@@ -1,5 +1,7 @@
 # CoffeeRun
 
+[![tests](http://img.shields.io/travis/tkraak/coffeerun/master.svg?style=flat)](https://travis-ci.org/tkraak/coffeerun)
+
 CoffeeRun is a small shopping-cart style application from the book [Front-end Web Development: The Big Nerd Ranch Guide](https://www.bignerdranch.com/books/front-end-web-development/) that manages coffee orders for a food truck.
 
 The app introduces the JavaScript [module pattern](https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20%26%20closures/ch5.md#modules), [constructor calls](https://github.com/getify/You-Dont-Know-JS/blob/master/this%20%26%20object%20prototypes/ch5.md#constructor-or-call) as well as the [prototype property](https://github.com/getify/You-Dont-Know-JS/blob/master/this%20%26%20object%20prototypes/ch5.md#class-functions) of JavaScript functions.
