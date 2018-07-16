@@ -4,11 +4,13 @@
   },
   "scripts": {
     "test": "npm run lint && nyc ava",
-    "lint": "standard | snazzy"
+    "lint": "standard | snazzy",
+    "coveralls": "nyc --reporter=lcov ava && cat ./coverage/lcov.info | coveralls"
   },
   "devDependencies": {
     "ava": "^0.25.0",
     "chromeless": "^1.5.2",
+    "coveralls": "^3.0.2",
     "jquery": "^3.3.1",
     "jsdom": "^11.10.0",
     "nyc": "^11.8.0",
