@@ -24,25 +24,23 @@ test('throws error if selector is invalid', t => {
   t.is(error.message, 'Could not find element with selector: test.')
 })
 
-test('addClicktHandler method', t => {
+test('addClicktHandler method', async t => {
   const cl = new CheckList(checkList)
-  const callback = stub().returns({ then: stub().yields() })
+  /*
+   * hack note
+   * const callback = stub().returns({ then: stub().yields() })
+   * use callback.resolves() and async/await instead
+   */
+  const callback = stub()
   const e = { target: { value: 'test@test.com' } }
   const on = stub(cl.$element, 'on').yields(e)
   const removeRow = spy()
 
-  cl.addClickHandler.call({ removeRow, $element: { on } }, callback)
+  await cl.addClickHandler.call({ removeRow, $element: { on } }, callback.resolves())
 
   t.true(on.calledOnce)
   t.is(callback.args[0][0], 'test@test.com')
   t.is(removeRow.args[0][0], 'test@test.com')
-
-  /*
-   * TODO
-   * const callback = stub()
-   * callback.resolves()
-   * can't spy on removeRow due to timing issues?
-   */
 })
 
 test('addRow method', t => {
