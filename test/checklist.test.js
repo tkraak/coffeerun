@@ -26,15 +26,23 @@ test('throws error if selector is invalid', t => {
 
 test('addClicktHandler method', t => {
   const cl = new CheckList(checkList)
+  const callback = stub().returns({ then: stub().yields() })
+  const e = { target: { value: 'test@test.com' } }
+  const on = stub(cl.$element, 'on').yields(e)
+  const removeRow = spy()
 
-  const on = stub(cl.$element, 'on').callsFake((type, delegate, callback) => {
-    callback.call({ removeRow () {} }, { target: { value: 'test' } })
-    t.true(on.calledOnce)
-  })
+  cl.addClickHandler.call({ removeRow, $element: { on } }, callback)
 
-  t.true(typeof cl.addClickHandler === 'function')
+  t.true(on.calledOnce)
+  t.is(callback.args[0][0], 'test@test.com')
+  t.is(removeRow.args[0][0], 'test@test.com')
 
-  cl.addClickHandler(() => ({ then () {} }))
+  /*
+   * TODO
+   * const callback = stub()
+   * callback.resolves()
+   * can't spy on removeRow due to timing issues?
+   */
 })
 
 test('addRow method', t => {
