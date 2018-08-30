@@ -1,10 +1,12 @@
 import test from 'ava'
-import { spy, fake, stub } from 'sinon'
+import { fake, restore, stub } from 'sinon'
 import window from './helpers/window'
 
 global.window = window
 const { CheckList } = require('../app/checklist')
 const checkList = '[data-coffee-order="checklist"]'
+
+test.afterEach('restore default sandbox', () => restore())
 
 test('CheckList function exists', t => {
   const cl = new CheckList(checkList)
@@ -56,15 +58,14 @@ test('addRow method', t => {
     }
   }, { emailAddress: 'test@test.com' })
 
-  // called once with test@test.com as first argument
-  t.is(removeRow.args[0][0], 'test@test.com')
-  t.is(removeClass.args[0][0], 'loader-bg')
+  t.true(removeRow.calledWith('test@test.com'))
+  t.true(removeClass.calledWith('loader-bg'))
   t.true(append.calledOnce)
 })
 
 test('removeRow method', t => {
   const cl = new CheckList(checkList)
-  const remove = spy()
+  const remove = fake()
   const closest = fake.returns({ remove })
   const find = fake.returns({ closest })
 
@@ -76,7 +77,7 @@ test('removeRow method', t => {
     }
   }, 'test@test.com')
 
-  t.is(find.args[0][0], '[value="test@test.com"]')
-  t.is(closest.args[0][0], '[data-coffee-order="checkbox"]')
+  t.true(find.calledWith('[value="test@test.com"]'))
+  t.true(closest.calledWith('[data-coffee-order="checkbox"]'))
   t.true(remove.calledOnce)
 })
