@@ -1,13 +1,10 @@
 import test from 'ava'
 import sinon from 'sinon'
-import { JSDOM } from 'jsdom'
+import window from './helpers/window'
 
-const dom = new JSDOM(`<!DOCTYPE html><html><form data-coffee-order="form"></form></html>`)
-const window = dom.window
-const $ = require('jquery')(window) // eslint-disable-line no-unused-vars
 global.window = window
+const { $ } = window
 const { RemoteDataStore } = require('../app/remotedatastore')
-
 const rds = new RemoteDataStore('url')
 
 test('RemoteDataStore function exists', t => {

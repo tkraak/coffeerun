@@ -1,10 +1,7 @@
 import test from 'ava'
 import { spy, fake, stub } from 'sinon'
-import { JSDOM } from 'jsdom'
+import window from './helpers/window'
 
-const dom = new JSDOM(`<!DOCTYPE html><html><div data-coffee-order="checklist"></div></html>`)
-const window = dom.window
-const $ = require('jquery')(window) // eslint-disable-line no-unused-vars
 global.window = window
 const { CheckList } = require('../app/checklist')
 const checkList = '[data-coffee-order="checklist"]'
@@ -34,20 +31,20 @@ test('addClicktHandler method', async t => {
   const callback = stub()
   const e = { target: { value: 'test@test.com' } }
   const on = stub(cl.$element, 'on').yields(e)
-  const removeRow = spy()
+  const removeRow = fake()
 
   await cl.addClickHandler.call({ removeRow, $element: { on } }, callback.resolves())
 
   t.true(on.calledOnce)
-  t.is(callback.args[0][0], 'test@test.com')
-  t.is(removeRow.args[0][0], 'test@test.com')
+  t.true(callback.calledWith('test@test.com'))
+  t.true(removeRow.calledWith('test@test.com'))
 })
 
 test('addRow method', t => {
   const cl = new CheckList(checkList)
-  const removeRow = spy()
-  const append = spy()
-  const removeClass = spy()
+  const removeRow = fake()
+  const append = fake()
+  const removeClass = fake()
 
   t.true(typeof cl.addRow === 'function')
 

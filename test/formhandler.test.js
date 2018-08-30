@@ -1,11 +1,8 @@
 import test from 'ava'
 import sinon from 'sinon'
+import window from './helpers/window'
 import { Validation } from '../app/validation'
-import { JSDOM } from 'jsdom'
 
-const dom = new JSDOM(`<!DOCTYPE html><html><form data-coffee-order="form"></form></html>`)
-const window = dom.window
-const $ = require('jquery')(window) // eslint-disable-line no-unused-vars
 global.window = window
 const { FormHandler } = require('../app/formhandler')
 const form = '[data-coffee-order="form"]'
@@ -39,7 +36,7 @@ test('addSubmitHandler method', t => {
 
   const forEach = sinon.stub().yields({})
   const on = sinon.stub(fh.$formElement, 'on').yieldsOn(ctx, e)
-  const sa = sinon.stub($.prototype, 'serializeArray').returns({ forEach })
+  const sa = sinon.stub(window.$.prototype, 'serializeArray').returns({ forEach })
 
   fh.addSubmitHandler(callback)
 
