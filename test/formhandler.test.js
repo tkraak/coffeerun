@@ -1,11 +1,13 @@
 import test from 'ava'
-import sinon from 'sinon'
+import { fake, restore, stub } from 'sinon'
 import window from './helpers/window'
 import { Validation } from '../app/validation'
 
 global.window = window
 const { FormHandler } = require('../app/formhandler')
 const form = '[data-coffee-order="form"]'
+
+test.afterEach('restore default sandbox', () => restore())
 
 test('FormHandler function exists', t => {
   const fh = new FormHandler(form)
@@ -22,26 +24,25 @@ test('throws error if selector is invalid', t => {
   t.is(error.message, 'Could not find element with selector: test.')
 })
 
-test('addSubmitHandler method', t => {
+test('addSubmitHandler method', async t => {
   const fh = new FormHandler(form)
-  // const callback = sinon.stub().resolves({}) // I'm missing somehting
-  const callback = sinon.stub().returns({ then: sinon.stub().yields() })
+  const callback = stub()
   const ctx = {
-    reset: sinon.spy(),
-    elements: [{}, { focus: sinon.spy() }]
+    reset: fake(),
+    elements: [{}, { focus: fake() }]
   }
   const e = {
-    preventDefault: sinon.spy()
+    preventDefault: fake()
   }
 
-  const forEach = sinon.stub().yields({})
-  const on = sinon.stub(fh.$formElement, 'on').yieldsOn(ctx, e)
-  const sa = sinon.stub(window.$.prototype, 'serializeArray').returns({ forEach })
+  const forEach = stub().yields({})
+  const on = stub(fh.$formElement, 'on').yieldsOn(ctx, e)
+  const sa = stub(window.$.prototype, 'serializeArray').returns({ forEach })
 
-  fh.addSubmitHandler(callback)
+  await fh.addSubmitHandler(callback.resolves())
 
   t.true(typeof fh.addSubmitHandler === 'function')
-  t.is(on.args[0][0], 'submit')
+  t.true(on.calledWith('submit'))
   t.true(typeof on.args[0][1] === 'function')
   t.true(e.preventDefault.calledOnce)
   t.true(sa.calledOnce)
@@ -57,16 +58,16 @@ test('addInputHandler invalid', t => {
   const e = {
     target: {
       value: 'test@aol.com',
-      setCustomValidity: sinon.spy()
+      setCustomValidity: fake()
     }
   }
-  const on = sinon.stub(fh.$formElement, 'on').yields(e)
+  const on = stub(fh.$formElement, 'on').yields(e)
 
   fh.addInputHandler(Validation.isCompanyEmail)
 
   t.true(typeof fh.addInputHandler === 'function')
   t.true(on.calledOnce)
-  t.is(e.target.setCustomValidity.args[0][0], message)
+  t.true(e.target.setCustomValidity.calledWith(message))
 })
 
 test('addInputHandler valid', t => {
@@ -75,13 +76,13 @@ test('addInputHandler valid', t => {
   const e = {
     target: {
       value: 'test@test.com',
-      setCustomValidity: sinon.spy()
+      setCustomValidity: fake()
     }
   }
-  const on = sinon.stub(fh.$formElement, 'on').yields(e)
+  const on = stub(fh.$formElement, 'on').yields(e)
 
   fh.addInputHandler(Validation.isCompanyEmail)
 
   t.true(on.calledOnce)
-  t.is(e.target.setCustomValidity.args[0][0], message)
+  t.true(e.target.setCustomValidity.calledWith(message))
 })
