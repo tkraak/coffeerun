@@ -14,6 +14,4 @@
   formHandler.addInputHandler(Validation.isCompanyEmail)
 
   truck.printOrders(checkList.addRow.bind(checkList))
-
-  exports.truck = truck
 })(typeof exports === 'undefined' ? window : exports)
