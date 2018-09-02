@@ -4,18 +4,33 @@
   },
   "scripts": {
     "test": "npm run lint && nyc ava",
+    "cypress": "npm run lint && cypress open",
     "lint": "standard | snazzy",
     "coveralls": "nyc --reporter=lcov ava && cat ./coverage/lcov.info | coveralls"
   },
   "devDependencies": {
     "ava": "^0.25.0",
-    "chromeless": "^1.5.2",
     "coveralls": "^3.0.2",
+    "cypress": "^3.1.0",
     "jquery": "^3.3.1",
     "jsdom": "^12.0.0",
     "nyc": "^13.0.1",
     "sinon": "^6.1.5",
     "snazzy": "^7.1.1",
     "standard": "^11.0.1"
+  },
+  "standard": {
+    "globals": [
+      "cy",
+      "it",
+      "describe",
+      "context",
+      "beforeEach",
+      "expect",
+      "assert"
+    ],
+    "ignore": [
+      "/cypress/integration/examples"
+    ]
   }
 }
