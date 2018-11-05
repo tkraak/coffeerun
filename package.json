@@ -11,13 +11,16 @@
   "devDependencies": {
     "ava": "^0.25.0",
     "coveralls": "^3.0.2",
-    "cypress": "^3.1.0",
+    "cypress": "^3.1.1",
     "jquery": "^3.3.1",
-    "jsdom": "^12.0.0",
-    "nyc": "^13.0.1",
-    "sinon": "^6.1.5",
-    "snazzy": "^7.1.1",
-    "standard": "^11.0.1"
+    "jsdom": "^13.0.0",
+    "nyc": "^13.1.0",
+    "sinon": "^7.1.1",
+    "snazzy": "^8.0.0",
+    "standard": "^12.0.1"
+  },
+  "engines": {
+    "node": ">=8.0.0"
   },
   "standard": {
     "globals": [
@@ -25,6 +28,7 @@
       "it",
       "describe",
       "context",
+      "before",
       "beforeEach",
       "expect",
       "assert"
