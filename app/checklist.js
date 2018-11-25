@@ -53,7 +53,8 @@
     )
 
     $label.append($checkbox)
-    $label.append(description)
+    // github.com/declandewet/common-tags#oneline
+    $label.append(description.replace(/(?:\n(?:\s*))+/g, ' '))
     $div.append($label)
 
     this.$element = $div
