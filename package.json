@@ -3,10 +3,11 @@
     "verbose": "true"
   },
   "scripts": {
-    "start": "npx http-server -s",
+    "start": "http-server -c-1",
     "test": "npm run lint && nyc ava",
     "cy:run": "cypress run",
     "cy:open": "cypress open",
+    "cy:verify": "cypress verify",
     "lint": "standard | snazzy",
     "coveralls": "nyc --reporter=lcov ava && cat ./coverage/lcov.info | coveralls"
   },
