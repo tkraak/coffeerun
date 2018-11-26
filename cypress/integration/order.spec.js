@@ -1,4 +1,4 @@
-describe('place coffee order', () => {
+describe('place and fulfill coffee order', () => {
   before(() => {
     cy.visit('http://localhost:8080')
   })
@@ -37,5 +37,11 @@ describe('place coffee order', () => {
     cy.get('[data-coffee-order="checkbox"] [value="test@email.com"]')
       .parent()
       .should('have.text', 'short caramel test order, (test@email.com) [60]')
+  })
+
+  specify('order fulfilled', () => {
+    cy.get('[data-coffee-order="checkbox"] [value="test@email.com"]')
+      .check()
+      .should('not.exist')
   })
 })
