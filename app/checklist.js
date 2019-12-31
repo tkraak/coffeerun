@@ -34,7 +34,7 @@
   function Row (order) {
     const $div = $('<div></div>', {
       'data-coffee-order': 'checkbox',
-      'class': 'checkbox'
+      class: 'checkbox'
     })
 
     const $label = $('<label></label>')

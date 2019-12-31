@@ -1,13 +1,11 @@
 import test from 'ava'
-import { fake, restore, spy, stub } from 'sinon'
+import { fake, spy, stub } from 'sinon'
 import window from './helpers/window'
 
 global.window = window
 const { $ } = window
 const { RemoteDataStore } = require('../app/remotedatastore')
 const rds = new RemoteDataStore('url')
-
-test.afterEach('restore default sandbox', () => restore())
 
 test('RemoteDataStore function exists', t => {
   t.true(typeof rds === 'object')
@@ -33,6 +31,7 @@ test('get method makes a GET request and invokes callback', t => {
   t.true(get.calledWithMatch('url/test@test.com'))
   t.true(callback.calledOnce)
   t.true(callback.calledWith({}))
+  get.restore()
 })
 
 test('get method makes a GET request and does not invoke callback', t => {
@@ -42,6 +41,7 @@ test('get method makes a GET request and does not invoke callback', t => {
   t.true(get.calledOnce)
   t.true(get.calledWithMatch('url/test@test.com'))
   t.false(callback.called)
+  get.restore()
 })
 
 test('getAll method makes a GET request and invokes callback', t => {
@@ -52,6 +52,7 @@ test('getAll method makes a GET request and invokes callback', t => {
   t.true(get.calledWithMatch('url'))
   t.true(callback.calledOnce)
   t.true(callback.calledWith({}))
+  get.restore()
 })
 
 test('getAll method makes a GET request and does not invoke callback', t => {
@@ -61,6 +62,7 @@ test('getAll method makes a GET request and does not invoke callback', t => {
   t.true(get.calledOnce)
   t.true(get.calledWithMatch('url'))
   t.false(callback.called)
+  get.restore()
 })
 
 test('remove method makes DELETE request', t => {

@@ -1,5 +1,11 @@
 {
   "ava": {
+    "files": [
+      "test/**/*"
+    ],
+    "helpers": [
+      "**/helpers/**/*"
+    ],
     "verbose": "true"
   },
   "scripts": {
@@ -12,16 +18,16 @@
     "coveralls": "nyc --reporter=lcov ava && cat ./coverage/lcov.info | coveralls"
   },
   "devDependencies": {
-    "ava": "^0.25.0",
-    "coveralls": "^3.0.2",
-    "cypress": "^3.1.1",
-    "http-server": "^0.11.1",
-    "jquery": "^3.3.1",
-    "jsdom": "^13.0.0",
-    "nyc": "^13.1.0",
-    "sinon": "^7.1.1",
+    "ava": "^2.4.0",
+    "coveralls": "^3.0.9",
+    "cypress": "^3.8.1",
+    "http-server": "^0.12.0",
+    "jquery": "^3.4.1",
+    "jsdom": "^15.2.1",
+    "nyc": "^15.0.0",
+    "sinon": "^8.0.2",
     "snazzy": "^8.0.0",
-    "standard": "^12.0.1"
+    "standard": "^14.3.1"
   },
   "engines": {
     "node": ">=8.0.0"
