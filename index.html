@@ -20,32 +20,59 @@
             <fieldset>
               <legend>CoffeeRun</legend>
               <div class="input-field">
-                <label>Coffee Order</label>
-                <input type="text" name="coffee" pattern="[a-zA-Z\s]+" required autofocus>
+                <label for="order-name">Coffee Order Name</label>
+                <input
+                  autofocus
+                  id="order-name"
+                  name="coffee"
+                  pattern="[a-zA-Z\s]+"
+                  required
+                  type="text"
+                >
               </div>
               <div class="input-field">
-                <label>Email Address</label>
-                <input type="email" name="emailAddress" required>
+                <label for="email-address">Email Address</label>
+                <input
+                  id="email-address"
+                  name="emailAddress"
+                  required
+                  type="email"
+                >
               </div>
               <div class="input-field">
                 <label>
-                  <input type="radio" name="size" value="short">
+                  <input
+                    name="size"
+                    required
+                    type="radio"
+                    value="short"
+                  >
                   Short
                 </label>
-                <br>
+              </div>
+              <div>
                 <label>
-                  <input type="radio" name="size" value="tall">
+                  <input
+                    name="size"
+                    type="radio"
+                    value="tall"
+                  >
                   Tall
                 </label>
-                <br>
+              </div>
+              <div>
                 <label>
-                  <input type="radio" name="size" value="grande">
+                  <input
+                    name="size"
+                    type="radio"
+                    value="grande"
+                  >
                   Grande
                 </label>
               </div>
               <div class="input-field">
-                <label for="flavorShot">Flavor Shot</label>
-                <select id="flavorShot" name="flavor" >
+                <label for="flavor">Flavor Shot</label>
+                <select id="flavor" name="flavor" >
                   <option value="">None</option>
                   <option value="caramel">Caramel</option>
                   <option value="almond">Almond</option>
@@ -53,8 +80,13 @@
                 </select>
               </div>
               <div class="input-field">
-                <label for="strengthLevel">Caffeine Rating</label>
-                <input id="strengthLevel" type="range" name="strength" value="30">
+                <label for="strength">Caffeine Rating</label>
+                <input
+                  id="strength"
+                  name="strength"
+                  type="range"
+                  value="30"
+                >
               </div>
               <button type="submit" class="button">Submit</button>
               <button type="reset" class="button-light float-right">Reset</button>
