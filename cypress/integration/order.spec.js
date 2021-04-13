@@ -19,12 +19,12 @@ describe('place and fulfill coffee order', () => {
   })
 
   specify('flavor', () => {
-    cy.get('#flavorShot')
+    cy.get('#flavor')
       .select('caramel')
   })
 
   specify('strength', () => {
-    cy.get('#strengthLevel')
+    cy.get('#strength')
       .invoke('val', 60)
       .trigger('change')
   })
