@@ -27,9 +27,13 @@ jobs:
       - name: Run lint
         run: npm run lint
 
-      - name: Run coverage
+      - name: Run unit tests and coverage
         run: npm run coverage
 
+      - name: Run Cypress with server
+        uses: cypress-io/github-action@v2
+        with:
+          start: npm start
 
       - name: Coveralls
         uses: coverallsapp/github-action@master
