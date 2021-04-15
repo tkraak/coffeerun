@@ -24,10 +24,10 @@ jobs:
       - name: Install npm dependencies
         run: npm ci
 
-      - name: Run lint and tests
-        run: npm test
+      - name: Run lint
+        run: npm run lint
 
-      - name: Run coveralls
+      - name: Run coverage
         run: npm run coverage
 
 

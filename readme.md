@@ -1,7 +1,7 @@
 # CoffeeRun
 
-[![tests](http://img.shields.io/travis/tkraak/coffeerun/master.svg?style=flat)](https://travis-ci.org/tkraak/coffeerun)
-[![coverage](https://img.shields.io/coveralls/tkraak/coffeerun.svg?style=flat)](https://coveralls.io/github/tkraak/coffeerun?branch=master)
+[![Tests](https://github.com/tkraak/coffeerun/actions/workflows/ci.yml/badge.svg)](https://travis-ci.org/tkraak/coffeerun)
+[![Coverage](https://coveralls.io/repos/github/tkraak/coffeerun/badge.svg)](https://coveralls.io/github/tkraak/coffeerun)
 
 CoffeeRun is a small shopping-cart style application from the book [Front-end Web Development: The Big Nerd Ranch Guide](https://www.bignerdranch.com/books/front-end-web-development/) that manages coffee orders for a food truck.
 
