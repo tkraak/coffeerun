@@ -15,7 +15,8 @@
     "cy:open": "cypress open",
     "cy:verify": "cypress verify",
     "lint": "standard | snazzy",
-    "coveralls": "nyc --reporter=lcov ava && cat ./coverage/lcov.info | coveralls"
+    "coveralls": "nyc --reporter=lcov ava && cat ./coverage/lcov.info | coveralls",
+    "coverage": "nyc --reporter=lcov npm test"
   },
   "devDependencies": {
     "ava": "^2.4.0",

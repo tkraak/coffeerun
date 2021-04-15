@@ -1,18 +1,49 @@
-name: CI
-on: push
-jobs:
-  build:
-    name: Build & test
-    runs-on: ubuntu-latest
-    steps:
-      # basically git clone
-      - uses: actions/checkout@v2
+name: Tests
+on: [push, pull_request]
 
-      # install Node 14
-      - uses: actions/setup-node@v1
+jobs:
+  test:
+    name: Node ${{ matrix.node }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [14]
+        os: [ubuntu-latest]
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v2
+
+      - name: Set Node.js version
+        uses: actions/setup-node@v1
         with:
           node-version: 14
 
-      # install, build & test:
-      - run: npm ci
-      - run: npm test
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Run lint and tests
+        run: npm test
+
+      - name: Run coveralls
+        run: npm run coverage
+
+
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          flag-name: ${{matrix.os}}-node-${{ matrix.node }}
+          parallel: true
+
+  finish:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Coveralls finished
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel-finished: true
