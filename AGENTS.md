@@ -88,10 +88,11 @@ Project uses Standard.js with these global allowances:
 - Use `.append()` for adding elements
 - Use `.removeClass()` for CSS class manipulation
 
-### API Integration
-- Remote data store uses REST API at `https://coffeerun-v2-rest-api.herokuapp.com/api/coffeeorders`
+### Data Storage
+- Local data store uses in-memory storage with Promise-based API
 - Email addresses used as unique identifiers
 - All order data includes: `emailAddress`, `size`, `flavor`, `coffee`, `strength`
+- Data persists only during the current session
 
 ### Code Organization
 - App modules in `/app/` directory
