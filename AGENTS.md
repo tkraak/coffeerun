@@ -17,9 +17,11 @@ CoffeeRun is a vanilla JavaScript shopping cart application for managing coffee 
 ### Testing
 - `npm test` - Run all unit tests
 - `npx ava test/filename.test.js` - Run single test file
-- `npm run cy:open` - Open Cypress test runner
-- `npm run cy:run` - Run Cypress tests headlessly
-- `npm run cy:verify` - Verify Cypress installation
+- `npx ava test/e2e/filename.spec.js` - Run single E2E test file
+- `npm run test:e2e` - Run Playwright E2E tests
+- `npm run test:e2e:ui` - Run Playwright tests with UI
+- `npm run test:e2e:debug` - Run Playwright tests in debug mode
+- `npm run test:e2e:headed` - Run Playwright tests in headed mode
 
 ### CI/CD
 The project uses GitHub Actions with Node 14 on Ubuntu. CI runs lint, unit tests with coverage, and Cypress E2E tests.

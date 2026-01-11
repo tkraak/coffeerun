@@ -5,36 +5,37 @@ jobs:
   test:
     name: Node ${{ matrix.node }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
-
+    
     strategy:
       fail-fast: false
       matrix:
         node: [14]
         os: [ubuntu-latest]
-
+    
     steps:
       - name: Clone repository
         uses: actions/checkout@v2
-
+      
       - name: Set Node.js version
         uses: actions/setup-node@v1
         with:
           node-version: 14
-
+      
       - name: Install npm dependencies
         run: npm ci
-
+      
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+      
       - name: Run lint
         run: npm run lint
-
+      
       - name: Run unit tests and coverage
         run: npm run coverage
-
-      - name: Run Cypress with server
-        uses: cypress-io/github-action@v2
-        with:
-          start: npm start
-
+      
+      - name: Run Playwright E2E tests
+        run: npm run test:e2e
+      
       - name: Coveralls
         uses: coverallsapp/github-action@master
         with:

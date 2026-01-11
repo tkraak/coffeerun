@@ -11,15 +11,16 @@
   "scripts": {
     "start": "http-server -c-1",
     "test": "nyc ava",
-    "cy:run": "cypress run",
-    "cy:open": "cypress open",
-    "cy:verify": "cypress verify",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:debug": "playwright test --debug",
+    "test:e2e:headed": "playwright test --headed",
     "lint": "standard | snazzy",
     "coverage": "nyc --reporter=lcov npm test"
   },
   "devDependencies": {
+    "@playwright/test": "^1.57.0",
     "ava": "^2.4.0",
-    "cypress": "^3.8.1",
     "http-server": "^0.12.0",
     "jquery": "^3.5.0",
     "jsdom": "^15.2.1",
@@ -33,18 +34,19 @@
   },
   "standard": {
     "globals": [
-      "cy",
-      "it",
+      "test",
+      "expect",
       "describe",
+      "beforeEach",
+      "afterEach",
+      "it",
       "context",
       "before",
-      "beforeEach",
-      "expect",
       "assert",
       "specify"
     ],
     "ignore": [
-      "/cypress/integration/examples"
+      "/e2e/fixtures"
     ]
   }
 }

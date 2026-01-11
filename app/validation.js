@@ -1,7 +1,7 @@
 (function (exports) {
   const Validation = {
     isCompanyEmail (email) {
-      return /.+@test\.com$/.test(email)
+      return /.+@(test\.com|coffeerun\.com)$/.test(email)
     }
   }
 
