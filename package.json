@@ -16,6 +16,7 @@
     "test:e2e:debug": "playwright test --debug",
     "test:e2e:headed": "playwright test --headed",
     "lint": "standard | snazzy",
+    "lint:fix": "standard --fix",
     "coverage": "nyc --reporter=lcov npm test"
   },
   "devDependencies": {
