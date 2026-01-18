@@ -77,3 +77,19 @@ Use UMD pattern for browser/Node.js compatibility:
 - `/test/` - Unit tests mirroring app structure
 - `/test/helpers/` - Test helpers
 - `/e2e/` - Playwright E2E tests
+
+## Dependencies
+- jQuery 3.7.1 - DOM manipulation
+- AVA 2.4.0 - Unit testing
+- Sinon 21.0.1 - Mocking/stubbing
+- Standard 17.1.2 - Linting
+- Playwright 1.57.0 - E2E testing
+- NYC 17.1.0 - Coverage
+- JSDOM 27.4.0 - Browser environment simulation
+- http-server 14.1.1 - Development server
+- Snazzy 9.0.0 - Linting output formatter
+
+## Browser Compatibility
+- Node.js >= 20.0.0 (CI uses Node 20)
+- Modern JavaScript without transpilation
+- UMD pattern for browser/Node.js compatibility
