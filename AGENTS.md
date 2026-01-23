@@ -79,6 +79,7 @@ Use UMD pattern for browser/Node.js compatibility:
 - `/e2e/` - Playwright E2E tests
 
 ## Dependencies
+- Pico CSS 2.1.1 (classless) - Minimal CSS framework
 - jQuery 3.7.1 - DOM manipulation
 - AVA 2.4.0 - Unit testing
 - Sinon 21.0.1 - Mocking/stubbing
