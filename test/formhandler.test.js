@@ -1,16 +1,52 @@
 import test from 'ava'
 import { fake, restore, stub } from 'sinon'
-import window from './helpers/window'
+import { JSDOM } from 'jsdom'
 import { Validation } from '../app/validation'
 
-global.window = window
-const { FormHandler } = require('../app/formhandler')
-const form = '[data-coffee-order="form"]'
+const { window } = new JSDOM('<!DOCTYPE html><html><body></body></html>')
 
-test.afterEach('restore default sandbox', () => restore())
+global.window = window
+global.document = window.document
+const { FormHandler } = require('../app/formhandler')
+let formCounter = 0
+
+const createFormFixture = () => {
+  formCounter += 1
+  const formElement = document.createElement('form')
+  const emailInput = document.createElement('input')
+  const coffeeInput = document.createElement('input')
+  const formId = `form-${formCounter}`
+
+  formElement.dataset.coffeeOrder = formId
+  emailInput.name = 'emailAddress'
+  emailInput.value = 'test@test.com'
+  coffeeInput.name = 'coffee'
+  coffeeInput.value = 'black'
+
+  formElement.appendChild(emailInput)
+  formElement.appendChild(coffeeInput)
+  document.body.appendChild(formElement)
+
+  return {
+    formElement,
+    emailInput,
+    coffeeInput,
+    selector: `[data-coffee-order="${formId}"]`
+  }
+}
+
+test.beforeEach(t => {
+  t.context.fixture = createFormFixture()
+})
+
+test.afterEach('restore default sandbox', t => {
+  restore()
+  t.context.fixture.formElement.remove()
+})
 
 test('FormHandler function exists', t => {
-  const fh = new FormHandler(form)
+  const { selector } = t.context.fixture
+  const fh = new FormHandler(selector)
   t.true(typeof fh === 'object')
 })
 
@@ -25,64 +61,105 @@ test('throws error if selector is invalid', t => {
 })
 
 test('addSubmitHandler method', async t => {
-  const fh = new FormHandler(form)
+  const { selector, formElement } = t.context.fixture
+  const fh = new FormHandler(selector)
   const callback = stub()
-  const ctx = {
-    reset: fake(),
-    elements: [{}, { focus: fake() }]
-  }
   const e = {
     preventDefault: fake()
   }
 
-  const forEach = stub().yields({})
-  const on = stub(fh.$formElement, 'on').yieldsOn(ctx, e)
-  const sa = stub(window.$.prototype, 'serializeArray').returns({ forEach })
+  formElement.reset = fake()
+  formElement.elements[1].focus = fake()
+
+  const originalFormData = global.FormData
+  global.FormData = function () {
+    return {
+      forEach: forEachCallback => {
+        forEachCallback('black', 'coffee')
+        forEachCallback('test@test.com', 'emailAddress')
+      }
+    }
+  }
+
+  const addEventListenerStub = stub(fh.formElement, 'addEventListener')
+  addEventListenerStub.withArgs('submit').callsFake((_eventName, handler) => {
+    handler.call(formElement, e)
+  })
 
   await fh.addSubmitHandler(callback.resolves())
 
+  global.FormData = originalFormData
+
   t.true(typeof fh.addSubmitHandler === 'function')
-  t.true(on.calledWith('submit'))
-  t.true(typeof on.args[0][1] === 'function')
+  t.true(addEventListenerStub.calledWith('submit'))
+  t.true(typeof addEventListenerStub.args[0][1] === 'function')
   t.true(e.preventDefault.calledOnce)
-  t.true(sa.calledOnce)
-  t.true(typeof forEach.args[0][0] === 'function')
-  t.true(callback.called)
-  t.true(ctx.reset.called)
-  t.true(ctx.elements[1].focus.calledOnce)
+  t.true(callback.calledWithMatch({
+    coffee: 'black',
+    emailAddress: 'test@test.com'
+  }))
+  t.true(formElement.reset.called)
+  t.true(formElement.elements[1].focus.calledOnce)
 })
 
 test('addInputHandler invalid', t => {
-  const fh = new FormHandler(form)
+  const { selector } = t.context.fixture
+  const fh = new FormHandler(selector)
   const message = 'test@aol.com is not an authorized email address!'
   const e = {
     target: {
       value: 'test@aol.com',
-      setCustomValidity: fake()
+      setCustomValidity: fake(),
+      matches: stub().returns(true)
     }
   }
-  const on = stub(fh.$formElement, 'on').yields(e)
+  const addEventListenerStub = stub(fh.formElement, 'addEventListener')
+  addEventListenerStub.withArgs('input').yields(e)
 
   fh.addInputHandler(Validation.isCompanyEmail)
 
   t.true(typeof fh.addInputHandler === 'function')
-  t.true(on.calledOnce)
+  t.true(addEventListenerStub.calledOnce)
   t.true(e.target.setCustomValidity.calledWith(message))
 })
 
 test('addInputHandler valid', t => {
-  const fh = new FormHandler(form)
+  const { selector } = t.context.fixture
+  const fh = new FormHandler(selector)
   const message = ''
   const e = {
     target: {
       value: 'test@test.com',
-      setCustomValidity: fake()
+      setCustomValidity: fake(),
+      matches: stub().returns(true)
     }
   }
-  const on = stub(fh.$formElement, 'on').yields(e)
+  const addEventListenerStub = stub(fh.formElement, 'addEventListener')
+  addEventListenerStub.withArgs('input').yields(e)
 
   fh.addInputHandler(Validation.isCompanyEmail)
 
-  t.true(on.calledOnce)
+  t.true(addEventListenerStub.calledOnce)
   t.true(e.target.setCustomValidity.calledWith(message))
+})
+
+test('addInputHandler ignores non-email inputs', t => {
+  const { selector } = t.context.fixture
+  const fh = new FormHandler(selector)
+  const e = {
+    target: {
+      value: 'test@test.com',
+      setCustomValidity: fake(),
+      matches: stub().returns(false)
+    }
+  }
+  const callback = stub()
+  const addEventListenerStub = stub(fh.formElement, 'addEventListener')
+  addEventListenerStub.withArgs('input').yields(e)
+
+  fh.addInputHandler(callback)
+
+  t.true(addEventListenerStub.calledOnce)
+  t.false(callback.called)
+  t.false(e.target.setCustomValidity.called)
 })

@@ -1,17 +1,20 @@
-(function (exports, $) {
+(function (exports) {
   function CheckList (selector) {
     if (!selector) {
       throw new Error('No selector provided.')
     }
 
-    this.$element = $(selector)
-    if (this.$element.length === 0) {
+    this.element = document.querySelector(selector)
+    if (!this.element) {
       throw new Error(`Could not find element with selector: ${selector}.`)
     }
   }
 
   CheckList.prototype.addClickHandler = function (callback) {
-    this.$element.on('click', 'input', e => {
+    this.element.addEventListener('click', e => {
+      if (!e.target.matches('input')) {
+        return
+      }
       const email = e.target.value
       callback(email).then(() => this.removeRow(email))
     })
@@ -20,29 +23,31 @@
   CheckList.prototype.addRow = function (order) {
     this.removeRow(order.emailAddress)
     const rowElement = new Row(order)
-    this.$element.removeClass('loader-bg')
-    this.$element.append(rowElement.$element)
+    this.element.classList.remove('loader-bg')
+    this.element.appendChild(rowElement.element)
   }
 
   CheckList.prototype.removeRow = function (email) {
-    this.$element
-      .find(`[value="${email}"]`)
-      .closest('[data-coffee-order="checkbox"]')
-      .remove()
+    const checkbox = this.element.querySelector(`[value="${email}"]`)
+    if (!checkbox) {
+      return
+    }
+    const row = checkbox.closest('[data-coffee-order="checkbox"]')
+    if (row) {
+      row.remove()
+    }
   }
 
   function Row (order) {
-    const $div = $('<div></div>', {
-      'data-coffee-order': 'checkbox',
-      class: 'checkbox'
-    })
+    const div = document.createElement('div')
+    div.dataset.coffeeOrder = 'checkbox'
+    div.classList.add('checkbox')
 
-    const $label = $('<label></label>')
+    const label = document.createElement('label')
 
-    const $checkbox = $('<input></input>', {
-      type: 'checkbox',
-      value: order.emailAddress
-    })
+    const checkbox = document.createElement('input')
+    checkbox.type = 'checkbox'
+    checkbox.value = order.emailAddress
 
     const description = (
       `${order.size}
@@ -52,13 +57,13 @@
       [${order.strength}]`
     )
 
-    $label.append($checkbox)
+    label.appendChild(checkbox)
     // github.com/declandewet/common-tags#oneline
-    $label.append(description.replace(/(?:\n(?:\s*))+/g, ' '))
-    $div.append($label)
+    label.append(description.replace(/(?:\n(?:\s*))+/g, ' '))
+    div.appendChild(label)
 
-    this.$element = $div
+    this.element = div
   }
 
   exports.CheckList = CheckList
-})(typeof exports === 'undefined' ? window.app : exports, window.jQuery)
+})(typeof exports === 'undefined' ? window.app : exports)

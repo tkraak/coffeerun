@@ -18,4 +18,4 @@ The original code as described in the book can be found [here](https://github.co
 - [x] pass either `window` or `exports`, which makes for easy module re-use in node
 - [x] write unit tests
 - [x] write end-to-end tests
-- [ ] remove jQuery dependency
+- [x] remove jQuery dependency

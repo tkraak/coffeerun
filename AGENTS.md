@@ -27,10 +27,10 @@ Uses GitHub Actions with Node 20. Runs lint, unit tests with coverage, and Playw
 ### Module Pattern
 Use UMD pattern for browser/Node.js compatibility:
 ```javascript
-(function (exports, $) {
+(function (exports) {
   // Module code
   exports.ModuleName = ModuleName
-})(typeof exports === 'undefined' ? window.app : exports, window.jQuery)
+})(typeof exports === 'undefined' ? window.app : exports)
 ```
 
 ### Formatting & Linting
@@ -43,7 +43,7 @@ Use UMD pattern for browser/Node.js compatibility:
 - **Classes/Constructors**: PascalCase (`CheckList`, `Truck`)
 - **Functions/Methods**: camelCase (`addClickHandler`)
 - **Variables**: camelCase (`checkList`, `formHandler`)
-- **jQuery objects**: `$` prefix (`$element`, `$div`)
+- **DOM elements**: descriptive names (`formElement`, `checklistElement`)
 
 ### Error Handling
 - Throw `Error` objects with descriptive messages
@@ -51,10 +51,10 @@ Use UMD pattern for browser/Node.js compatibility:
 - Check DOM element existence before use
 
 ### DOM Manipulation
-- Use jQuery for all DOM operations
-- Cache elements: `this.$element = $(selector)`
+- Use vanilla DOM APIs for all DOM operations
+- Cache elements: `this.element = document.querySelector(selector)`
 - Data attributes: `[data-coffee-order="form"]`
-- Event delegation with `.on()`
+- Event delegation with `addEventListener()` + `matches()`
 
 ### Asynchronous Operations
 - Use Promises for async operations
@@ -63,7 +63,7 @@ Use UMD pattern for browser/Node.js compatibility:
 
 ### Testing Guidelines
 - AVA for unit tests, Sinon for mocking
-- Import helpers from `./helpers/window`
+- Use JSDOM to build per-test fixtures
 - Restore sandbox: `test.afterEach(..., () => restore())`
 - Test success/error cases, use `t.throws()`, `t.true()`
 
@@ -80,7 +80,6 @@ Use UMD pattern for browser/Node.js compatibility:
 
 ## Dependencies
 - Pico CSS 2.1.1 (classless) - Minimal CSS framework
-- jQuery 3.7.1 - DOM manipulation
 - AVA 2.4.0 - Unit testing
 - Sinon 21.0.1 - Mocking/stubbing
 - Standard 17.1.2 - Linting

@@ -1,21 +1,22 @@
-(function (exports, $) {
+(function (exports) {
   function FormHandler (selector) {
     if (!selector) {
       throw new Error('No selector provided.')
     }
 
-    this.$formElement = $(selector)
-    if (this.$formElement.length === 0) {
+    this.formElement = document.querySelector(selector)
+    if (!this.formElement) {
       throw new Error(`Could not find element with selector: ${selector}.`)
     }
   }
 
   FormHandler.prototype.addSubmitHandler = function (callback) {
-    this.$formElement.on('submit', function (e) {
+    this.formElement.addEventListener('submit', function (e) {
       e.preventDefault()
       const data = {}
-      $(this).serializeArray().forEach((field) => {
-        data[field.name] = field.value
+      const formData = new FormData(this)
+      formData.forEach((value, name) => {
+        data[name] = value
       })
       callback(data).then(() => {
         this.reset()
@@ -25,7 +26,10 @@
   }
 
   FormHandler.prototype.addInputHandler = function (callback) {
-    this.$formElement.on('input', '[name="emailAddress"]', function (e) {
+    this.formElement.addEventListener('input', function (e) {
+      if (!e.target.matches('[name="emailAddress"]')) {
+        return
+      }
       const emailAddress = e.target.value
       let message = ''
       if (callback(emailAddress)) {
@@ -38,4 +42,4 @@
   }
 
   exports.FormHandler = FormHandler
-})(typeof exports === 'undefined' ? window.app : exports, window.jQuery)
+})(typeof exports === 'undefined' ? window.app : exports)
